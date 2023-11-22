@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Meow Chatbot Python</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Chatbot by Meow.nalini98</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=neon|outline|emboss|shadow-multiple">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <style>
+   
+    header {
+      background-color: #f2f2f2;
+      color: #333;
+      padding: 10px;
+      text-align: center;
+    }
+   
+    h1 {
+      margin: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #FAFAFA;
+      background-repeat: no-repeat;
+      background-size: cover;
+      over-flow: auto;
+    }
+    #chat-container {
+      min-height: 300px;
+      max-height: 400px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #FAFAFA;
+      background-repeat: no-repeat;
+      background-size: cover;
+      line-height: 20px;
+      over-flow: auto;
+    }
+    .user {
+      color: #0D47A1;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    
+    #user-input {
+      margin: 10px;
+      size: 20px;
+      width: 50%;
+      border-radius: 5px;
+      line-height: 10px;
+      padding: 8px;
+      border: 1px solid #BDBDBD;
+    }
+    
+    #user-input:hover {
+      margin: 10px;
+      size: 20px;
+      width: 70%;
+      border-radius: 5px;
+      line-height: 20px;
+      padding: 10px;
+      border: 1px solid #90CAF9;
+      float: center;
+    }
+    
+    #qna {
+      color: #FF8A80;
+      height: 200px;
+    }
+    
+    button {
+      padding: 10px 0px;
+      background: #9FA8DA;
+      width: 10%;
+      border-radius: 5px;
+      color: #263238;
+      font-weight: 600;
+      font-size: 14px;
+      align-items: center;
+      float:center;
+      margin-left: 100px;
+      margin-top: 20px;
+  }
+    
+    h1 {
+      font-size: 40px;
+      font-weight: 600;
+      text-align: center;
+      margin: 20px 0;
+      margin-bottom: 30px;
+      color: #90A4AE;
+    }
+    
+    h1:hover {
+      color: #fff;
+      font-size: 50px;
+    }
+    
+    button:hover {
+      padding: 12px 0px;
+      background: #455A64;
+      float: center;
+      width: 11%;
+      border-radius: 5px;
+  }
+    
+  footer {
+    font-size: 10px;
+  }
+
+  </style>
+  <body>
+    <header>
+      <h1 id="h1">Meow PyBot</h1>
+    </header>
+    <div id="chat-container">
+      <img src="https://i.pinimg.com/originals/00/71/00/007100e0162ea4965f0e247e014de95d.gif" class="w3-right" style="width: 200px"/>
+    </div>
+    <form id="chat-form">
+      <input type="text" id="user-input"/>
+      <button type="submit" id="submit-btn">Send</button>
+    </form>
+    
+    <footer class="w3-opacity w3-hover-opacity-off w3-hover-animate-zoom w3-bottom w3-center w3-margin">
+    <h6 class="fa fa-github w3-center"></h6><span class="w3-small w3-center"><b class="w3-small w3-center"> Powered by: @Meow.Nalini98 </b></span>
+    </footer>  
+
+    <script>
+      const chatContainer = document.querySelector('#chat-container');
+      const chatForm = document.querySelector('#chat-form');
+      const chatInput = document.querySelector('#user-input');
+
+      function createChatElement(elementType, className, textContent) {
+        const el = document.createElement(elementType);
+        el.className = className;
+        el.textContent = textContent;
+        return el;
+      }
+
+      // Define the manual questions and answers
+      const qna = {
+        "What is Python?": "- Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python’s elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.\n\n-The Python interpreter and the extensive standard library are freely available in source or binary form for all major platforms from the Python web site, https://www.python.org/, and may be freely distributed. The same site also contains distributions of and pointers to many free third party Python modules, programs and tools, and additional documentation.",
+        "Web Development with Python and Flask": "- Flask is a small and lightweight Python web framework that provides useful tools and features that make creating web applications in Python easier. It gives developers flexibility and is a more accessible framework for beginners to programming, since you can build a web application quickly using only a single Python file.",
+        "Building a website with Python Flask": "Google, YouTube, Quora – they are all built in Python. You can actually build powerful web applications with Python. And it’s a lot of fun. In this tutorial, you will learn the Flask web framework, and you will build a website from scratch. Flask is a great Python framework for building web applications, and it is easy to learn. In this tutorial, you will not only build your website; you will also deploy the website in a live server.",
+        "My First Flask Website": "Yes, it will be just a page with some plain text, but it is still called a website and that’s how it starts.\n  Python is concise, so it takes only seven lines of code to build what you see in the screenshot. Let’s do it.\n  Insert the following lines of Python code inside an empty text file, and name the file something like hello.py.\n  from flask import Flask\n   app = Flask(__name__)\n\n@app.route('/')\n   def home():\n    return 'Hey there!'\n  \n  if __name__ == '__main__':\n    app.run(debug=True).\n    Once you run the script, the website should  now be up and running on your local machine, and it can be viewed by visiting localhost:5000 in your browser. That’s a good start.",
+        "How making a website with Python works": "Before making something more attractive instead of just a webpage with plain text, let’s first make sure you understand how generating websites with Python works.\n    Think about the user typing in your website URL in their browser.\n    When the user enters the URL in the browser, they are making a request to the web server.\n    As a developer, you would have to write some Python code to handle requests and deal with CGI which is a standard environment that Python and other web development programming languages use to create web pages dynamically. And you would have to write the same code over and over again for every web app that you built.\n    Now, because that is a repetitive task, someone put all that code together and created a bunch of Python files. These bunch of files were called flask. So, flask is a framework which when loaded in Python automatically executes the routine code and lets you focus on the specific parts of your website. When we type in pip install flask in the command line, we are downloading the flask framework from its online repositories and when we import flask we are making the framework available in our current script, and we can use its features easily there.",
+        "How a Flask app works": "from flask import Flask\n   app = Flask(__name__)\n   @app.route('/')\n   def home():\n   return 'Hey there!'\n   if __name__ == '__main__':\n    app.run(debug=True).\n    \n    In line 1 you are making available the code you need to build web apps with flask. Flask is the framework here, while Flask is a Python class datatype. In other words, Flask  is the prototype used to create instances of web application or web applications if you want to put it simple.\n    So, once we import Flask, we need to create an instance of the Flask class for our web app. That’s what line 3 does. __name__ is a special variable that gets as value the string '__main__' when you’re executing the script. We’ll go back to that in a moment.\n    In lines 5-7, we are defining a function that returns the string “Hey there!”. That function is mapped to the home ‘/’ URL. That means when the user navigates to localhost:5000, the home function will run, and it will return its output on the webpage. If the input to the route method was something else, let’s say ‘/about/’, the function output would be shown when the user visited localhost:5000/about/. How practical is that?\n    Then we have the mysterious lines 9 and 10. Something you should know is that Python assigns the name '__main__' to the script when the script is executed. If the script is imported from another script, the script keeps it given name (e.g. hello.py). In our case, we are executing the script. Therefore, __name__ will be equal to '__main__'. That means the if conditional statement is satisfied and the app.run() method will be executed. This technique allows the programmer to have control over the script’s behavior.\n    Notice also that we are setting the debug parameter to true. That will print out possible Python errors on the web page, helping us trace the errors. However, in a production environment, you would want to set it to False as to avoid any security issues. So far, so good!\n    We have a running website with some content returned  by the Python function. As you can imagine, returning plain strings from a function doesn’t take us anywhere far.\n    If you want to make something more serious and more visually appealing, you would want to incorporate HTML files along your Python file and have your Python code return HTML pages instead of plain strings.",
+        "HTML templates in flask": "Create an empty file, name it something like home.html and put the following HTML code inside it:\n   As you already know, HTML is a markup language used to render webpages. Try to remember these three things about creating HTML pages:\n   - An HTML document must start with a declaration that specifies the document type: <!DOCTYPE html>.\n   - The HTML document itself always begins with <html> and ends with </html>.\n   The visible part of the HTML document is between <body> and </body>. The area outside that is used to reference Javascript files, CSS, or other features.\n     The flask framework has been written in a way so that it looks for HTML template files in a folder that should be named templates. So, you should create such an empty folder and then put all the HTML templates in there. \n    So, the Python script stays outside the templates folder.\n     Let’s now edit the Python code so that it reads the HTML template and returns it to the webpage. Here is the updated version:from flask import Flask\n   app = Flask(__name__)\n   @app.route('/')\n   def home():\n   return 'Hey there!'\n   if __name__ == '__main__':\n    app.run(debug=True).\n   So, going to localhost:5000 now should display the webpage shown in the screenshot at the beginning of this lesson.",
+        "Setting up an account on PythonAnywhere": "You can easily sign up for a free plan on PythonAnywhere. It gives you 500 MB of disk space. If in the future you will want more server resources you can upgrade to the paid plans.",
+        "Using the console to navigate the server": "Once you have signed up and logged in, go to the Consoles menu item and then click on Bash. That will open your server terminal which is the interface that lets you interact and use your server via Linux commands. There’s no graphical interface. The terminal lets you do everything like installing Python packages, creating, writing, editing and deleting files, knowing what directory you are, etc. For example, if you type pwd and press Enter you would get as output something like /home/ardit which is your current directory in the server.\n    In PythonAnywhere you can also schedule a Python script for execution at a particular time every day. For that, please read the following pages on 'How to schedule a Python task' and if you want to know how to deploy a Flask web app on PythonAnywhere see 'Deploying a Flask app'.",
+        "Create a new directory on PythonAnywhere": "mkdir myproject --> ls -> OUTPUT: README.txt myproject",
+        "Change our current directory to myproject on PythonAnywhere": "cd myproject",
+        "Check to see where you are on PythonAnywhere": "pwd",
+        "Create a Python file on PythonAnywhere": "nano myscript.py",
+        "Run a Python shell": "python3",
+        "Install Python packages with pip3": "pip3 install pandas --user",
+        "Uninstall Python packages with pip3": "pip3 uninstall pandas",
+        "yêu em hông anh": "Hog pe oj. A day co vk oj  😎",
+        "pé cute quá": "Pé cám un",
+        "Bonjour": "Coucou mon ami",
+        "Je suis chaud": "Ohlala. Aaaaaaaaaaaaaaaaaaaa",
+        "What is your name?": "My name is Meow Meow.",
+        "What can you do?": "I can help you with tasks and answer your questions.",
+        "What time is it?": `It's currently ${new Date().toLocaleTimeString()}`,
+        "How old are you?": "I am an artificial intelligence and do not have an age.",
+        "You are so stupid": "I am not. Why did you say that? Huhu",
+        "I like you": "Thank you for your special love",
+        "I love you so much": "I am so happy to hear that",
+        "Do you love me": "I am not. I got Married hic. That's a pity",
+        "What are the Common Uses and Applications of AI?": "Your answer here should show that you recognize the far-reaching and practical applications of AI. Still, your answer is up to you because of your understanding of the AI field is what the interviewer is trying to ascertain. If possible, mention those uses most relevant to the potential employer. Possibilities include contract analysis, object detection, and classification for avoidance and navigation, image recognition, content distribution, predictive maintenance, data processing, automation of manual tasks, or data-driven reporting. ",
+        "python": "Python is a high-level, general-purpose programming language. Its design philosophy emphasizes code readability with the use of significant indentation.<br>Python is dynamically typed and garbage-collected. It supports multiple programming paradigms, including structured (particularly procedural), object-oriented and functional programming. It is often described as a 'batteries included' language due to its comprehensive standard library.",
+        "a=3 b=4 print(a*b)": "12",
+        "setInterval(function() {<br>if (i <= text.length)<br> {typing.innerHTML = text.slice(0, i) + '_';": "} else {<br>clearInterval;<br>typing.innerHTML = text;<br>}<br>}, 150);",
+        // Add more questions and answers as needed
+      }
+
+      function handleManualResponse(userInput) {
+        // Check if the user's input matches a question in the qna dictionary
+        if (userInput in qna) {
+          // If the input matches a question in the qna dictionary, display the corresponding answer
+          chatContainer.appendChild(createChatElement('div', 'bot', qna[userInput]));
+        } else {
+          // If the input does not match, display a default response
+          chatContainer.appendChild(createChatElement('div', 'bot', "I'm sorry, I don't understand."));
+        }
+      }
+
+      function submitHandler(event) {
+        event.preventDefault();
+
+        // Extract the user's text input
+        const userInput = chatInput.value;
+
+        // Display the user's input in the chat container
+        chatContainer.appendChild(createChatElement('div', 'user', userInput));
+
+        // Process the user's input and get a response
+        handleManualResponse(userInput);
+
+        // Clear the input field
+        chatInput.value = '';
+      }
+
+      chatForm.addEventListener('submit', submitHandler);
+      
+      text = "Meow PyBot";
+      typing = document.getElementById("h1");
+      i = 0;
+      
+      setInterval(function() {
+        if (i <= text.length) {
+          typing.innerHTML = text.slice(0, i) + "_";
+          i++;
+        } else {
+          clearInterval;
+          typing.innerHTML = text;
+        }
+      }, 150);
+      
+    </script>
+  </body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
